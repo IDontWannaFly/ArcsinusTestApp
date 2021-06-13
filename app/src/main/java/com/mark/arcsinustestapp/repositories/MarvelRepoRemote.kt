@@ -17,13 +17,11 @@ class MarvelRepoRemote {
     private val app = Application.instance
 
     fun getCharacters(name: String, page: Int) : Observable<List<Character>>{
-        return if(app.isNetworkAvailable) service.getCharacters(if(name.isEmpty() || name.length < 3) null else name , page).flatMap {
+        return if(app.isNetworkAvailable) service.getCharacters(if(name.isEmpty() || name.length < 3) null else name , (page - 1) * 10).flatMap {
             return@flatMap Observable.create(ObservableOnSubscribe <List<Character>> { emitter ->
                 emitter.onNext(it.data?.results ?: listOf())
                 return@ObservableOnSubscribe emitter.onComplete()
             })
-        }.doOnNext {
-            localRepo.saveCharacters(it)
         }.observeOn(AndroidSchedulers.mainThread())
         else
             Observable.just(localRepo.getCharacters(name, page))

@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".Application"
-        android:theme="@style/Theme.ArcsinusTestApp">
+        android:theme="@style/Theme.ArcsinusTestApp"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
