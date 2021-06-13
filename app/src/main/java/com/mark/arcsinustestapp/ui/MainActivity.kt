@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mark.arcsinustestapp.R
 import com.mark.arcsinustestapp.adapters.CharacterAdapter
 import com.mark.arcsinustestapp.adapters.RecyclerViewAdapterBase
@@ -19,9 +17,13 @@ import com.mark.arcsinustestapp.databinding.DialogCharacterBinding
 import com.mark.arcsinustestapp.models.Character
 import com.mark.arcsinustestapp.utils.EndlessScrollListener
 import com.mark.arcsinustestapp.view_models.MarvelViewModel
-import com.mark.arcsinustestapp.view_models.MarvelViewModelFactory
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), RecyclerViewAdapterBase.ItemClickListener<Character> {
+class MainActivity : DaggerAppCompatActivity(), RecyclerViewAdapterBase.ItemClickListener<Character> {
+
+    @Inject
+    lateinit var factory:ViewModelProvider.Factory
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MarvelViewModel
@@ -73,8 +75,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapterBase.ItemClickListe
     }
 
     private fun initViewModel() {
-        val viewModelFactory = MarvelViewModelFactory()
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MarvelViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory).get(MarvelViewModel::class.java)
         binding.viewModel = viewModel
 
         viewModel.event.observe(this, Observer {

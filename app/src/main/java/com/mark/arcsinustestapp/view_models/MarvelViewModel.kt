@@ -2,8 +2,8 @@ package com.mark.arcsinustestapp.view_models
 
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.mark.arcsinustestapp.Application
 import com.mark.arcsinustestapp.R
 import com.mark.arcsinustestapp.extensions.getErrorBody
@@ -12,18 +12,20 @@ import com.mark.arcsinustestapp.models.Character
 import com.mark.arcsinustestapp.repositories.MarvelRepoLocal
 import com.mark.arcsinustestapp.repositories.MarvelRepoRemote
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class MarvelViewModel : ViewModel() {
+class MarvelViewModel @Inject constructor(
+    private val app: Application,
+    private val repo: MarvelRepoRemote,
+    private val repoLocal: MarvelRepoLocal
+) : AndroidViewModel(app) {
 
     sealed class Event{
         class OnError(val msg: String) : Event()
         class OnItemSelected(val item: Character) : Event()
     }
 
-    private val app = Application.instance
     private val compositeDisposable = CompositeDisposable()
-    private val repo = MarvelRepoRemote()
-    private val repoLocal = MarvelRepoLocal()
     private val searchHandler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable {
         getItems(1)

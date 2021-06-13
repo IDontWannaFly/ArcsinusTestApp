@@ -3,8 +3,9 @@ package com.mark.arcsinustestapp.repositories
 import com.mark.arcsinustestapp.models.Character
 import io.realm.Case
 import io.realm.Realm
+import javax.inject.Inject
 
-class MarvelRepoLocal {
+class MarvelRepoLocal @Inject constructor() {
 
     fun getCharacters(name: String, page: Int) : List<Character>{
         val realmQuery = Realm.getDefaultInstance().where(Character::class.java)

@@ -5,14 +5,16 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import androidx.multidex.MultiDexApplication
+import com.mark.arcsinustestapp.di.DaggerAppComponent
 import com.mark.arcsinustestapp.realm.AppRealmMigration
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import timber.log.Timber
 
 
-class Application : MultiDexApplication() {
+class Application : DaggerApplication() {
 
     companion object {
 
@@ -32,6 +34,10 @@ class Application : MultiDexApplication() {
 
         initRealm()
         initNetworkListener()
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.factory().create(this)
     }
 
     private fun initNetworkListener() {

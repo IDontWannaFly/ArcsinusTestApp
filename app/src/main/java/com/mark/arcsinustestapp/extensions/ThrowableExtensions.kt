@@ -1,10 +1,9 @@
 package com.mark.arcsinustestapp.extensions
 
 import com.google.gson.Gson
-import com.mark.arcsinustestapp.rest.ServerError
+import com.mark.arcsinustestapp.rest.models.ServerError
 import okhttp3.ResponseBody
 import retrofit2.HttpException
-import retrofit2.adapter.rxjava2.Result.response
 import java.io.IOException
 
 fun Throwable.getErrorBody() : ServerError?{

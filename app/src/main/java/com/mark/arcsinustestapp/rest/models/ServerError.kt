@@ -1,4 +1,4 @@
-package com.mark.arcsinustestapp.rest
+package com.mark.arcsinustestapp.rest.models
 
 import com.google.gson.annotations.Expose
 
